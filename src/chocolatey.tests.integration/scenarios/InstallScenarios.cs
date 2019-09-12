@@ -365,8 +365,9 @@ namespace chocolatey.tests.integration.scenarios
             {
                 MockLogger.contains_message("Successfully added a pin for upgradepackage").ShouldBeTrue();
             }
+        }
 
-            [Concern(typeof(ChocolateyInstallCommand))]
+        [Concern(typeof(ChocolateyInstallCommand))]
         public class when_installing_packages_with_packages_config : ScenariosBase
         {
             public override void Context()
