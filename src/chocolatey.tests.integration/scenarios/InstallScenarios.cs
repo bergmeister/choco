@@ -102,6 +102,29 @@ namespace chocolatey.tests.integration.scenarios
         }
 
         [Concern(typeof(ChocolateyInstallCommand))]
+        public class when_noop_installing_a_package_with_pin_package_argument : ScenariosBase
+        {
+            public override void Context()
+            {
+                base.Context();
+                Configuration.Noop = true;
+                Configuration.Features.PinVersion = true;
+            }
+
+            public override void Because()
+            {
+                Service.install_noop(Configuration);
+            }
+
+            [Fact]
+            public void should_contain_pin_message()
+            {
+                MockLogger.contains_message("Successfully added a pin for upgradepackage").ShouldBeTrue();
+            }
+
+        }
+
+        [Concern(typeof(ChocolateyInstallCommand))]
         public class when_noop_installing_a_package_that_does_not_exist : ScenariosBase
         {
             public override void Context()
