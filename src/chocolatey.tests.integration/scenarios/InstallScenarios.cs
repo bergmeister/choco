@@ -102,12 +102,11 @@ namespace chocolatey.tests.integration.scenarios
         }
 
         [Concern(typeof(ChocolateyInstallCommand))]
-        public class when_noop_installing_a_package_with_pin_package_argument : ScenariosBase
+        public class when_installing_a_package_with_pin_package_argument : ScenariosBase
         {
             public override void Context()
             {
                 base.Context();
-                Configuration.Noop = true;
                 Configuration.Features.PinVersion = true;
             }
 
@@ -345,6 +344,29 @@ namespace chocolatey.tests.integration.scenarios
         }
 
         [Concern(typeof(ChocolateyInstallCommand))]
+        public class when_installing_a_package_With_pin_package_happy_path : ScenariosBase
+        {
+            private PackageResult packageResult;
+
+            public override void Context()
+            {
+                base.Context();
+                Configuration.Features.PinVersion = true;
+            }
+
+            public override void Because()
+            {
+                Results = Service.install_run(Configuration);
+                packageResult = Results.FirstOrDefault().Value;
+            }
+
+            [Fact]
+            public void should_contain_pin_message2()
+            {
+                MockLogger.contains_message("Successfully added a pin for upgradepackage").ShouldBeTrue();
+            }
+
+            [Concern(typeof(ChocolateyInstallCommand))]
         public class when_installing_packages_with_packages_config : ScenariosBase
         {
             public override void Context()
